@@ -1,0 +1,13 @@
+{
+    "description": "Proyecto Laboratorio, PHP 8,CSS",
+    "autoload": {
+        "MVC\\" : "./",
+        "Model\\" : "./models",
+        "Controllers \\" : "./controllers",
+        "Classes\\" : "./classes"
+    },
+    "require": {
+        "dompdf/dompdf": "^3.0",
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
