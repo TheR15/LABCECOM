@@ -128,17 +128,15 @@ if (!isset($_SESSION['login'])) {
             };
         </script>
 
-
-
         <div class="graficas">
             <div class="grafica-barras">
                 <div class="contenedor-filtro">
                     <h3>Solicitudes</h3>
-                    <select class ="filtro-grafica" name="" id="">
-                            <option value="">12 Meses</option>
-                            <option value="">6 Meses</option>
-                            <option value="">30 Dias</option>
-                            <option value="">7 Dias</option>
+                    <select class ="filtro-grafica" name="filtro-grafica" id="filtro-grafica">
+                            <option value="12meses">12 Meses</option>
+                            <option value="6meses" >6 Meses</option>
+                            <option value="30dias">30 Dias</option>
+                            <option value="7dias">7 Dias</option>
                     </select>
                 </div>
                 <canvas id="chart-barras-fechas"></canvas>
@@ -149,7 +147,6 @@ if (!isset($_SESSION['login'])) {
                 </div>
                 <canvas class="" id="chart-general"></canvas>
             </div>
-            <h2>dsd</h2>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

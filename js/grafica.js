@@ -41,63 +41,122 @@ new Chart(ctx, {
   },
 });
 
-
-//Grafica de lineas
 const ctx2 = document.getElementById('chart-barras-fechas');
 
-var fechasFormateadas = fechas.map(fechaString => {
-  var fechaObj = new Date(fechaString);
+// Formatear fechas para la gráfica
+const fechasFormateadas = fechas.map(fechaString => {
+  const fechaObj = new Date(fechaString);
   if (isNaN(fechaObj)) {
-      console.error("Fecha inválida:", fechaString);
-      return fechaString; // Devolver la cadena original o manejar el error
+    console.error("Fecha inválida:", fechaString);
+    return fechaString;
   }
-  var opciones = { month: 'long', day: 'numeric' };
+  const opciones = { month: 'long', day: 'numeric' };
   return fechaObj.toLocaleDateString('es-MX', opciones);
 });
 
-console.log(fechasFormateadas);
-console.log(conteos);
+const filtroGrafica = document.getElementById('filtro-grafica');
+filtroGrafica.addEventListener('change', function () {
+  const valorFecha = filtroGrafica.value;
 
+  // Verificar si la opción seleccionada es "todas"
+  if (valorFecha === 'todas') {
+    // Mostrar todas las fechas y conteos
+    actualizarGrafica(fechasFormateadas, conteos);
+    return; // Terminar la función aquí para no aplicar más filtros
+  }
 
-new Chart(ctx2, {
-  type: 'line',
-  data: {
-      labels: fechasFormateadas, // Fechas como etiquetas en el eje X
+  // Obtener la fecha actual
+  const fechaActual = new Date();
+  let fechaLimite;
+
+  // Determinar el rango de fecha según la opción seleccionada
+  if (valorFecha === '12meses') {
+    fechaLimite = new Date(fechaActual);
+    fechaLimite.setFullYear(fechaLimite.getFullYear() - 1);
+  } else if (valorFecha === '6meses') {
+    fechaLimite = new Date(fechaActual);
+    fechaLimite.setMonth(fechaLimite.getMonth() - 6);
+  } else if (valorFecha === '30dias') {
+    fechaLimite = new Date(fechaActual);
+    fechaLimite.setDate(fechaLimite.getDate() - 30);
+  } else if (valorFecha === '7dias') {
+    fechaLimite = new Date(fechaActual);
+    fechaLimite.setDate(fechaLimite.getDate() - 7);
+  }
+
+  // Filtrar las fechas y los conteos que caen dentro del rango seleccionado
+  const fechasFiltradas = [];
+  const conteosFiltrados = [];
+
+  fechas.forEach((fecha, index) => {
+    const fechaObj = new Date(fecha);
+    if (fechaObj >= fechaLimite) {
+      fechasFiltradas.push(fechasFormateadas[index]);
+      conteosFiltrados.push(conteos[index]);
+    }
+  });
+
+  // Actualizar la gráfica con los datos filtrados
+  actualizarGrafica(fechasFiltradas, conteosFiltrados);
+});
+
+function actualizarGrafica(fechas, conteos) {
+  // Destruir la gráfica existente si es necesario
+  if (window.miGrafica) {
+    window.miGrafica.destroy();
+  }
+
+  // Crear una nueva gráfica con los datos filtrados
+  window.miGrafica = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: fechas,
       datasets: [{
-          label: 'Número de Solicitudes',
-          data: conteos, // Conteo de solicitudes en cada fecha
-          backgroundColor: 'rgba(11, 87, 208, 0.2)',
-          borderColor: '#0b57d0',
-          borderWidth: 1.5,
-          tension: 0.3 // Suaviza la línea si se trata de un gráfico lineal
+        label: 'Número de Solicitudes',
+        data: conteos,
+        backgroundColor: 'rgba(11, 87, 208, 0.2)',
+        borderColor: '#0b57d0',
+        borderWidth: 1.5,
+        tension: 0.3
       }]
-  },
-  options: {
+    },
+    options: {
       plugins: {
-          title: {
-              padding: {
-                  top: 10,
-                  bottom: 20
-              }
+        title: {
+          display: true,
+          text: 'Solicitudes por Día',
+          color: '#000',
+          font: {
+            size: 20,
           },
-          legend: {
-            display:false,
+          align: 'center',
+          padding: {
+            top: 10,
+            bottom: 20
           }
+        },
+        legend: {
+          display: false,
+        }
       },
       scales: {
-          y: {
-              beginAtZero: false, // Comienza en el valor mínimo de los datos
-              min: 0.5, // Asegura que el gráfico comience en 1
-              suggestedMin: 0.5, // Sugiere que el mínimo sea 1
-          }
+        y: {
+          beginAtZero: false,
+          min: 0.5,
+          suggestedMin: 0.5,
+        }
       },
       layout: {
-          padding: {
-              left: 20,
-              right: 20,
-              top: 20,
-              bottom: 20
-          }
+        padding: {
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: 20
+        }
       }
-  },
-});
+    },
+  });
+}
+
+// Inicializar la gráfica con todos los datos
+actualizarGrafica(fechasFormateadas, conteos);

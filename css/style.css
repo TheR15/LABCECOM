@@ -1004,5 +1004,7 @@ thead th {
 }
 
 .filtro-grafica{
+    border: none;
     font-weight: 500;
+    cursor: pointer;
 }
