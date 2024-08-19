@@ -122,19 +122,6 @@ function actualizarGrafica(fechas, conteos) {
     },
     options: {
       plugins: {
-        title: {
-          display: true,
-          text: 'Solicitudes por Día',
-          color: '#000',
-          font: {
-            size: 20,
-          },
-          align: 'center',
-          padding: {
-            top: 10,
-            bottom: 20
-          }
-        },
         legend: {
           display: false,
         }

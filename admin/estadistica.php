@@ -6,6 +6,8 @@ session_start();
 $idUsuario = $_SESSION['idUsuario'];
 $nombreUsuario = $_SESSION['nombre'];
 $totalSolicitudes = $_SESSION['totalSolicitudes'];
+$totalSolicitudes = $_SESSION['totalSolicitudes'];
+
 //Comprobamos que si esten retornando las variables de sesion
 if (!isset($_SESSION['login'])) {
     header('Location: ../auth/login.php');
@@ -145,7 +147,7 @@ if (!isset($_SESSION['login'])) {
                 <div class="contenedor-filtro">
                     <h3>Estadisticas Generales</h3>
                 </div>
-                <canvas class="" id="chart-general"></canvas>
+                <canvas id="chart-general"></canvas>
             </div>
         </div>
 

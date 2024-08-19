@@ -110,6 +110,7 @@ img {
 
 .derecha h2 {
     font-weight: bold;
+    margin: 0;
 }
 
 .izquierda {
@@ -173,7 +174,7 @@ img {
 .enlace-contrasena {
     display: flex;
     justify-content: end;
-    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .derecha {
@@ -181,14 +182,15 @@ img {
     padding: 2rem;
     border-radius: .5rem;
     display: none;
-
 }
 
 @media (min-width: 768px) {
     .derecha {
         background-color: var(--azul);
-        display: block;
-        height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
     }
 }
 
